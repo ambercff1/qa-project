@@ -1,0 +1,73 @@
+<div class="orchestrator-container">
+  
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">🤖 QA.Orchestrator</div>
+    <div class="links">
+      <span>Docs</span>
+      <span>GitHub</span>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="main-content">
+    <p class="subtitle">Construa, implante e teste suas APIs Spring Boot automaticamente usando Inteligência Artificial.</p>
+    
+    <div class="input-card">
+      <div class="input-wrapper">
+        <span class="icon">🔗</span>
+        <input 
+          type="text" 
+          [(ngModel)]="githubUrl"
+          placeholder="Insira a URL do repositório Git..." 
+          [disabled]="isLoading"
+        />
+      </div>
+      <button (click)="handleRunTest()" [disabled]="isLoading" class="btn-gradient">
+        <!-- O @if do Angular mostra conteúdo diferente baseado em uma condição -->
+        @if (isLoading) {
+          <span class="spinner"></span> Executando...
+        } @else {
+          🚀 Disparar Pipeline de QA
+        }
+      </button>
+    </div>
+
+    <!-- Banner de Erro Fatal (só aparece se this.errorMessage tiver um valor) -->
+    @if (errorMessage) {
+      <div class="alert-error">
+        ⚠️ Erro na Requisição: {{ errorMessage }}
+      </div>
+    }
+
+    <!-- Seção de Resultados (só aparece se this.result tiver um valor) -->
+    @if (result) {
+      <div class="results-section">
+        <!-- Banner de Status dos Testes -->
+        <div class="status-banner" [ngClass]="result.test_summary.status === 'SUCESSO' ? 'status-success' : 'status-failed'">
+          @if (result.test_summary.status === 'SUCESSO') {
+            🟢 SUCESSO - Todos os testes passaram!
+          } @else {
+            🔴 FALHA - Testes executados, mas com falhas encontradas.
+          }
+        </div>
+      </div>
+    }
+
+    <!-- Console de Logs (estilo terminal) -->
+    <div class="console-card">
+      <div class="console-header">
+        <span class="dot red"></span>
+        <span class="dot yellow"></span>
+        <span class="dot green"></span>
+        <span class="console-title">Console de Execução</span>
+      </div>
+      <div class="console-body">
+        <!-- O @for do Angular faz um loop no array 'logs' e renderiza uma div para cada linha -->
+        @for (log of logs; track $index) {
+          <div class="log-line">> {{ log }}</div>
+        }
+      </div>
+    </div>
+  </main>
+</div>
