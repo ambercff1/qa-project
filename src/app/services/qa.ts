@@ -18,3 +18,4 @@ export class Qa {
     return this.http.post<AnalysisResponse>(this.apiUrl, body);
   }
 }
+

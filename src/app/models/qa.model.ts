@@ -4,7 +4,8 @@ export interface AnalysisRequest {
 
 export interface TestSummary {
     status: string;
-    log_preview: string[];
+    output: string;
+    returnCode: number;
 }
 
 export interface AnalysisResponse {
